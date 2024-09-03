@@ -20,7 +20,7 @@ router.post("/upload-files", upload.single("file"), async (req, res) => {
   const { faculty_email, subject, title } = req.body
   // const title = req.body.title;
   const pdf = req.file.filename;
-  const data = new Pdf({
+  const data = new Pdf({  
     pdf,
     title,
     subject,
@@ -44,7 +44,7 @@ router.post("/upload-files", upload.single("file"), async (req, res) => {
 router.get("/get-files", async (req, res) => {
   const { subject } = req.body;
   try {
-    PdfSchema.find({ subject }).then((data) => {
+    await Pdf.find({ subject }).then((data) => {
       res.send({ status: "ok", data: data });
     });
   } catch (error) { }
