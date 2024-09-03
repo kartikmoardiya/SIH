@@ -15,7 +15,7 @@ const mp4_to_text = require('./Routes/mp4_to_text')
 const generate_pdf = require('./generate_pdf')
 const user = require('./Routes/users')
 const pdf = require('./Routes/addPdf')
-const app = require('./backend/app')
+const appp = require('./backend/app')
 
 
 app.use(cors());
@@ -29,7 +29,7 @@ app.use('/',generate_pdf);
 app.use('/',mp4_to_text);
 app.use('/user',user); 
 app.use('/pdf',pdf);
-app.use('/backend',app); 
+app.use('/backend',appp); 
 app.get('/',(req,res)=>{
     res.json({msg:"Welcome, Welcome, Bhale Padhara"});
 })
