@@ -46,9 +46,9 @@ router.post("/post-growth", async (req, res) => {
 });
 
 
-router.get("/get-growth/", async (req, res) => {
+router.get("/get-growth", async (req, res) => {
     try {
-        const { subject, id } = req.body;
+        const { id,subject} = req.body;
         const data = await Dashboard.findOne({ id, subject });
         if (!data) {
             return res.status(404).json({
