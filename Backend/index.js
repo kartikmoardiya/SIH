@@ -15,7 +15,7 @@ const mp4_to_text = require('./Routes/mp4_to_text')
 const generate_pdf = require('./generate_pdf')
 const user = require('./Routes/users')
 const pdf = require('./Routes/addPdf')
-const app = require('./backend/React-Pdf-Multer-Backend/app')
+const app = require('./backend/app')
 
 
 app.use(cors());
