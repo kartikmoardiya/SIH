@@ -4,42 +4,38 @@ const app = express();
 const Pdf = require('../Models/pdf');
 const Dashboard = require('../Models/student_dash')
 
-router.post("/get-growth", async (req, res) => {
+router.post("/post-growth", async (req, res) => {
     try {
-        const { _id, title, correct_answer, subject } = req.body;
+        const { id, chapter, correct_answer, subject, faculty_email } = req.body;
 
-        const dbpdf = await Pdf.findOne({ title });
-        console.log(dbpdf);
-        if (!dbpdf) {
-            return res.status(404).json({
-                success: "false",
-                message: "PDF not found in database"
+        const db = await Dashboard.findOne({ chapter,subject,id});
+        const pdf = await Pdf.findOne({ title : chapter});
+        if (db) {
+            await Dashboard.updateOne(
+                { id, subject, chapter },
+                { $set: { correct_answer: correct_answer, growth : correct_answer*10 } }
+            )
+
+            return res.status(200).json({
+                message: "PDF Updated successfully",
+                success: true,
             });
         }
 
         let growth = (correct_answer * 100) / 10;
         const data = new Dashboard({
             correct_answer,
-            chapter: title,
+            chapter,
             subject,
             growth,
-            _id,
-            faculty_email: dbpdf.faculty_email
+            id,
+            faculty_email : pdf.faculty_email
         })
-        try {
-            await data.save();
-            return res.status(200).json({
-                message: "PDF added successfully",
-                success: true,
-            });
-        } catch (error) {
-            console.log(error);
-            return res.status(500).json({
-                message: "Internal server error",
-                success: false,
-            });
-        }
-        res.send({ status: "ok" });
+
+        await data.save();
+        return res.status(200).json({
+            message: "PDF added successfully",
+        })
     } catch (error) {
         console.error(error);
         return res.status(500).json({
@@ -49,4 +45,30 @@ router.post("/get-growth", async (req, res) => {
     }
 });
 
+
+router.get("/get-growth/", async (req, res) => {
+    try {
+        const { subject, id } = req.body;
+        const data = await Dashboard.findOne({ id, subject });
+        if (!data) {
+            return res.status(404).json({
+                success: "false",
+                message: "PDF not found in database"
+            });
+        }
+
+        return res.status(200).json({
+            data,
+            message: "PDF added successfully",
+            success: true,
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: "false",
+            message: "Server error"
+        });
+    }
+});
 module.exports = router;
