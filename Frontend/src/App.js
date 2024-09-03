@@ -18,7 +18,7 @@ function App() {
     getPdf();
   }, []);
   const getPdf = async () => {
-    const result = await axios.get("http://localhost:5000/get-files");
+    const result = await axios.get("https://sih-5.onrender.com/get-files");
     console.log(result.data.data);
     setAllImage(result.data.data);
   };
@@ -45,7 +45,7 @@ function App() {
   };
   const showPdf = (pdf) => {
     // window.open(`http://localhost:5000/files/${pdf}`, "_blank", "noreferrer");
-    setPdfFile(`http://localhost:5000/files/${pdf}`)
+    setPdfFile(`https://sih-5.onrender.com/files/${pdf}`)
   };
   return (
     <div className="App">
