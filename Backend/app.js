@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router()
 const multer = require("multer");
-const pdfDetails = require('./pdfDetails')
+const Pdf = require('./Models/pdf')
 
 
 const storage = multer.diskStorage({
@@ -17,23 +17,37 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.post("/upload-files", upload.single("file"), async (req, res) => {
-  console.log(req.file);
-  const title = req.body.title;
-  const fileName = req.file.filename;
+  const { faculty_email, subject, title } = req.body
+  // const title = req.body.title;
+  const pdf = req.file.filename;
+  const data = new Pdf({
+    pdf,
+    title,
+    subject,
+    faculty_email
+  })
   try {
-    await PdfSchema.create({ title: title, pdf: fileName });
-    res.send({ status: "ok" });
+    await data.save();
+    return res.status(200).json({
+      message: "PDF added successfully",
+      success: true,
+    });
   } catch (error) {
-    res.json({ status: error });
+    console.log(error);
+    return res.status(500).json({
+      message: "Internal server error",
+      success: false,
+    });
   }
 });
 
 router.get("/get-files", async (req, res) => {
+  const { subject } = req.body;
   try {
-    PdfSchema.find({}).then((data) => {
+    PdfSchema.find({ subject }).then((data) => {
       res.send({ status: "ok", data: data });
     });
-  } catch (error) {}
+  } catch (error) { }
 });
 
 module.exports = router
