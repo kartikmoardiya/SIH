@@ -17,6 +17,7 @@ const user = require('./Routes/users')
 const pdf = require('./Routes/addPdf')
 const appp = require('./app')
 const mcq = require('./Routes/generate_mcq')
+const chat = require('./Routes/question_answer')
 
 
 app.use(cors());
@@ -32,6 +33,8 @@ app.use('/user',user);
 app.use('/pdf',pdf);
 app.use('/backend',appp); 
 app.use('/mcq',mcq); 
+app.use('/chat',chat); 
+
 
 app.get('/',(req,res)=>{
     res.json({msg:"Welcome, Welcome, Bhale Padhara"});

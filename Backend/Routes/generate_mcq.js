@@ -60,9 +60,9 @@ router.get('/generate', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         let text = req.body.text + "generate 5 mcq from given text with correct answer only json in object form";
-        let mcq = await run(text);
-        const jsonObject = JSON.parse(mcq);
-        res.json(jsonObject)
+        let data = await run(text);
+        const mcq = JSON.parse(data);
+        res.json(mcq)
 
     } catch (error) {
         console.error(error);
