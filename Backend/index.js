@@ -19,6 +19,7 @@ const appp = require('./app')
 const mcq = require('./Routes/generate_mcq')
 const chat = require('./Routes/question_answer')
 const dash = require('./Routes/student_dashboard')
+const bibtex = require('./Routes/get_letex')
 
 
 app.use(cors());
@@ -36,6 +37,7 @@ app.use('/backend',appp);
 app.use('/mcq',mcq); 
 app.use('/chat',chat);
 app.use('/dashboard',dash); 
+app.use('/bibtex',bibtex); 
 
 
 app.get('/',(req,res)=>{

@@ -4,8 +4,7 @@ const app = express()
 const router = express.Router()
 
 async function run(prompt) {
-    const genAI = new GoogleGenerativeAI("AIzaSyATBp02ph1AbYYWPnzGkSBh251OEZMmPA8");
-
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
     const result = await model.generateContent(prompt);
