@@ -20,12 +20,12 @@ async function run(prompt) {
 
 // let pdfPath = "../files/"
 // Event mate
-router.get('/generate', async (req, res) => {
+router.get('/generate/text', async (req, res) => {
     try {
         const pdfTitle = req.body.title;
 
         const dbpdf = await Pdf.findOne({ title: pdfTitle });
-        // console.log(Path);
+
         if (!dbpdf) {
             return res.status(404).json({
                 success: "false",
@@ -59,6 +59,7 @@ router.get('/generate', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
+        let subject = req.body.subject;
         let text = req.body.text + "generate 5 mcq from given text with correct answer only json in object form";
         let data = await run(text);
         const mcq = JSON.parse(data);

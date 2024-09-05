@@ -82,7 +82,7 @@ function createPDF(filename, content, heading) {
 
 // Route to create PDF
 router.post('/create-pdf',async (req, res) => {
-    let { content, heading, pdf_title } = req.body;
+    let { content, heading, pdf_title, faculty_id,subject,} = req.body;
 
     if (!content || !heading) {
         return res.status(400).send('Bad request: content or heading missing');
