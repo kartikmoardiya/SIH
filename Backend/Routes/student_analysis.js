@@ -61,7 +61,7 @@ const analyzeStudentInterest = (data) => {
     return sortedSubjectsJson;
 };
 
-router.get("/", async (req, res) => {
+router.post("/all-subject", async (req, res) => {
     try {
         const { id } = req.body;
         let data = await Dashboard.find({ id });
@@ -105,6 +105,33 @@ router.get("/", async (req, res) => {
     
         return res.status(200).json({
             data : sortedSubjects.data,
+            message: "PDF added successfully",
+            success: true,
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: "false",
+            message: "Server error"
+        });
+    }
+});
+
+router.post("/perticular-topic", async (req, res) => {
+    try {
+        const { id,subject} = req.body;
+        let data = await Dashboard.find({ id,subject });
+
+        if (!data) {
+            return res.status(404).json({
+                success: "false",
+                message: "PDF not found in database"
+            });
+        }
+
+        return res.status(200).json({
+            data,
             message: "PDF added successfully",
             success: true,
         });
