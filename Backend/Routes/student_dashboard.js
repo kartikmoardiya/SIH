@@ -6,14 +6,14 @@ const Dashboard = require('../Models/student_dash')
 
 router.post("/post-growth", async (req, res) => {
     try {
-        const { id, chapter, correct_answer, subject, faculty_email } = req.body;
+        const { id, chapter, student_level, subject, faculty_email, total_video_time, seen_video_time, pdf_read_time, video_link } = req.body;
 
-        const db = await Dashboard.findOne({ chapter,subject,id});
-        const pdf = await Pdf.findOne({ title : chapter});
+        const db = await Dashboard.findOne({ chapter, subject, id });
+        const pdf = await Pdf.findOne({ title: chapter });
         if (db) {
             await Dashboard.updateOne(
                 { id, subject, chapter },
-                { $set: { correct_answer: correct_answer, growth : correct_answer*10 } }
+                { $set: { student_level: student_level, total_video_time, seen_video_time, pdf_read_time, video_link } }
             )
 
             return res.status(200).json({
@@ -22,14 +22,16 @@ router.post("/post-growth", async (req, res) => {
             });
         }
 
-        let growth = (correct_answer * 100) / 10;
         const data = new Dashboard({
-            correct_answer,
-            chapter,
+            pdf_read_time,
+            seen_video_time,
+            total_video_time,
             subject,
-            growth,
+            chapter,
+            student_level,
             id,
-            faculty_email : pdf.faculty_email
+            faculty_email,
+            video_link
         })
 
         await data.save();
@@ -48,7 +50,7 @@ router.post("/post-growth", async (req, res) => {
 
 router.get("/get-growth", async (req, res) => {
     try {
-        const { id,subject} = req.body;
+        const { id, subject } = req.body;
         const data = await Dashboard.findOne({ id, subject });
         if (!data) {
             return res.status(404).json({

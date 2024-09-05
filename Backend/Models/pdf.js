@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const pdfSchema = new mongoose.Schema({
     // Faculty Email
-    faculty_email : {
+    faculty_id : {
         type : String
     },
     subject : {
@@ -13,6 +13,14 @@ const pdfSchema = new mongoose.Schema({
         type : String
     },
     title : {
+        type : String,
+        required : true
+    },
+    title_no : {
+        type : String,
+        required : true
+    },
+    video_link : {
         type : String,
         required : true
     }

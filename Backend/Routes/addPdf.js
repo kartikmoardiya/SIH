@@ -24,8 +24,13 @@ router.post("/upload-files", upload.single("file"), async (req, res) => {
     console.log(req.file);
     const title = req.body.title;
     const fileName = req.file.filename;
+    const {title_no,video_link,subject,faculty_id} = req.body
     try {
         const data = new Pdf({
+            faculty_id,
+            subject,
+            video_link,
+            title_no,
             title: title,
             pdf: fileName
         });
@@ -50,9 +55,9 @@ router.post("/upload-files", upload.single("file"), async (req, res) => {
 
 router.post("/get-files", async (req, res) => {
     try {
-        const pdfTitle = req.body.title;
+        const subject = req.body.subject;
 
-        const dbpdf = await Pdf.findOne({ title: pdfTitle });
+        const dbpdf = await Pdf.find({ subject});
         console.log(dbpdf);
         if (!dbpdf) {
             return res.status(404).json({
@@ -61,7 +66,6 @@ router.post("/get-files", async (req, res) => {
             });
         }
 
-        // let url = "https://sih-2024-5.onrender.com/files/";
         const pdfName =  dbpdf.pdf;
 
         res.json({path : pdfName})
