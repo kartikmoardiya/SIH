@@ -48,7 +48,7 @@ router.post("/post-growth", async (req, res) => {
 });
 
 
-router.get("/get-growth", async (req, res) => {
+router.post("/get-growth", async (req, res) => {
     try {
         const { id, subject } = req.body;
         const data = await Dashboard.find({ id, subject });
@@ -75,7 +75,7 @@ router.get("/get-growth", async (req, res) => {
 });
 
 
-router.get("/get-subject-detail", async (req, res) => {
+router.post("/get-subject-detail", async (req, res) => {
     try {
         const { subject } = req.body;
         const data = await Pdf.find({ subject });
