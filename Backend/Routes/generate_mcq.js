@@ -22,6 +22,7 @@ async function run(prompt) {
 // Event mate
 router.get('/generate/text', async (req, res) => {
     try {
+        const {subject} = req.body;
         const pdfTitle = req.body.title;
 
         const dbpdf = await Pdf.findOne({ title: pdfTitle });
@@ -59,7 +60,6 @@ router.get('/generate/text', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        let subject = req.body.subject;
         let text = req.body.text + "generate 5 mcq from given text with correct answer only json in object form";
         let data = await run(text);
         const mcq = JSON.parse(data);
