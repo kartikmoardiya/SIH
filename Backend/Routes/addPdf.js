@@ -55,9 +55,9 @@ router.post("/upload-files", upload.single("file"), async (req, res) => {
 
 router.post("/get-files", async (req, res) => {
     try {
-        const subject = req.body.subject;
+        const {subject,title} = req.body;
 
-        const dbpdf = await Pdf.find({ subject});
+        const dbpdf = await Pdf.findOne({title, subject});
         console.log(dbpdf);
         if (!dbpdf) {
             return res.status(404).json({
