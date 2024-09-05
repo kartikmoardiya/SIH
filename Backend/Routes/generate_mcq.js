@@ -20,7 +20,7 @@ async function run(prompt) {
 
 // let pdfPath = "../files/"
 // Event mate
-router.get('/generate/text', async (req, res) => {
+router.post('/generate/text', async (req, res) => {
     try {
         const {subject} = req.body;
         const pdfTitle = req.body.title;
